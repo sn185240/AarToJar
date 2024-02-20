@@ -24,6 +24,12 @@ dependencies {
 //    systemProperty "java.library.path", "libs"
 //}
 
+task runMyClass(type: JavaExec) {
+    main = 'org.example.Main' // Replace com.example.MyClass with the fully qualified name of your class
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty 'java.library.path', '/Users/sn185240/Documents/GitHub/AarToJar/libs' // Replace /your/library/path with the actual library path
+}
+
 test {
     useJUnitPlatform()
 }
