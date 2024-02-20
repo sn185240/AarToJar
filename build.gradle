@@ -1,33 +1,29 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
 
 repositories {
-    // Add your repositories here if needed
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    // Add your dependencies here, including the AAR file you want to convert to JAR
-    implementation files('/Users/sn185240/Documents/GitHub/AarToJar/libs/SilverPosNative.aar')
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // Include all JAR files in the libs directory
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+   implementation fileTree(dir: 'libs', include: ['*.so'])
 }
 
-task extractAar(type: Copy) {
-    from zipTree(file('/Users/sn185240/Documents/GitHub/AarToJar/libs/SilverPosNative.aar'))
-    into file('/Users/sn185240/Documents/GitHub/AarToJar/libs/extractedAar')
+//task run(type: JavaExec) {
+//    main = 'org.example.Main' // Adjust with your main class
+//    classpath = sourceSets.main.runtimeClasspath
+//    systemProperty "java.library.path", "libs"
+//}
+
+test {
+    useJUnitPlatform()
 }
-
-// Define a task to create a JAR file from the extracted AAR
-task createJarFromAar(type: Jar, dependsOn: extractAar) {
-    from fileTree(dir: '/Users/sn185240/Documents/GitHub/AarToJar/libs/extractedAar', include: '**/*.class') // Include Java classes
-    from fileTree(dir: '/Users/sn185240/Documents/GitHub/AarToJar/libs/extractedAar', include: '**/*.jar') // Include embedded JAR files
-    from fileTree(dir: '/Users/sn185240/Documents/GitHub/AarToJar/libs/extractedAar', include: '**/*.so') // Include native libraries if any
-   from fileTree(dir: '/Users/sn185240/Documents/GitHub/AarToJar/libs/extractedAar', include: '**/*.dylib') // Include native libraries if any
-   from fileTree(dir: '/Users/sn185240/Documents/GitHub/AarToJar/libs/extractedAar', include: '**/*.dll') // Include native libraries if any
-
-    // Set the name for your JAR file
-    archiveFileName = "AarToJar.jar"
-    destinationDirectory = file('/Users/sn185240/Documents/GitHub/AarToJar/libs/extractedJar')
-}
-
-// Define the default task
-defaultTasks 'createJarFromAar'
-
