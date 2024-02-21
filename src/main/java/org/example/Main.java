@@ -6,7 +6,7 @@ import com.ncr.silverpro.restaurant.wrapper.AppliedDiscount;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static {
-    System.loadLibrary("libposwrapper.so");
+    System.loadLibrary("poswrapper");
   }
 
     public static void main(String[] args) {
