@@ -18,6 +18,12 @@ dependencies {
    implementation fileTree(dir: 'libs', include: ['*.so'])
 }
 
+task runMyClass(type: JavaExec) {
+    main = 'org.example.Main'
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty 'java.library.path', projectDir.path + '/libs'
+}
+
 tasks.withType(JavaExec) {
     systemProperty "java.library.path", projectDir.path + "/libs"
 }
